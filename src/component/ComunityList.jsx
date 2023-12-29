@@ -1,15 +1,17 @@
 import ComunityListStyled from '../style/ComunityListStyled'
 import ApiRequest from '../api/apiRequest'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector } from 'react-redux'
 import UserInfo from './UserInfo'
+import { useEffect } from 'react'
+import store from '../store/store'
+import { actions } from '../action/action'
 
 function ComunityList() {
-  const store = useStore()
   const history = useNavigate()
   const communityListItem = useSelector((state) => state.communityList)
   const userInfo = useSelector((state) => state.authInfo)
+
   const loadCommunityList = () => {
     const param = {
       meeting: false,
@@ -17,20 +19,30 @@ function ComunityList() {
       order_by: 'all',
       upvote: false,
     }
-    ApiRequest.communityRequst(param)
+    ApiRequest.communityRequst(param).then((data) => {
+      console.log('@@@@@@@@@@')
+      if (data.code === 200) {
+        console.log(data)
+        store.dispatch(
+          actions.setAction({
+            data: data.data.community_post_list,
+            name: 'COMMUNITY_ADDED',
+          }),
+        )
+      }
+    })
   }
   useEffect(() => {
-    if (userInfo.token) {
-      loadCommunityList()
-    }
-  }, [userInfo.token])
+    console.log('userInfo.token', userInfo.token)
+    loadCommunityList()
+  }, [])
 
   const handleLocationDetail = (data) => {
     console.log(data)
     if (data.type === 'open') {
-      history(`/product/${data.c_post_info_id}`)
+      history(`/product/open/${data.c_post_info_id}/${data.c_info_id}`)
     } else {
-      history(`/product/${data.c_post_info_id}/${data.c_info_id}`)
+      history(`/product/private/${data.c_post_info_id}/${data.c_info_id}`)
     }
   }
 

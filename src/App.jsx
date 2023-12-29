@@ -2,8 +2,11 @@ import HeaderStyle from './style/HeaderStyle'
 import logo from '@image/logo.svg'
 import { Route, Routes } from 'react-router-dom'
 import Default from './layout/Default'
-import Main from './component/Main'
 import ProductDetail from './component/ProductDetail'
+import LoginComponet from './component/LoginComponet'
+import Main from './component/Main'
+import BottomSheet from './component/BottomSheet'
+import 'swiper/css'
 
 function App() {
   return (
@@ -20,14 +23,19 @@ function App() {
       </HeaderStyle>
       <Routes>
         <Route path="/" element={<Default />}>
-          <Route path="/" element={<Main />} />
-          <Route path="product/:productId" element={<ProductDetail />} />
+          <Route path="/" element={<LoginComponet />} />
+          <Route path="/main" element={<Main />} />
           <Route
-            path="product/:productId/:postId"
+            path="product/open/:productId/:postId"
+            element={<ProductDetail />}
+          />
+          <Route
+            path="product/private/:productId/:postId"
             element={<ProductDetail />}
           />
         </Route>
       </Routes>
+      <BottomSheet />
     </div>
   )
 }

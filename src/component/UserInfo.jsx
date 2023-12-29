@@ -48,6 +48,7 @@ const UserInfoStyled = styled.div`
 function UserInfo(props) {
   const store = useStore()
   const handleOption = (data) => {
+    console.log('클릭')
     let isOpen = false
     store.dispatch(actions.setAction({ data: !isOpen, name: 'BOTTOM_SHEET' }))
     store.dispatch(actions.setAction({ data: data, name: 'COMMUNITY_DETAIL' }))

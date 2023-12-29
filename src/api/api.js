@@ -10,4 +10,7 @@ export default {
   communityDetail(param) {
     return axiosInstance.post('/community/private/detail', param)
   },
+  communityOpenDetail(param) {
+    return axiosInstance.post('/community/open/detail', param)
+  },
 }
